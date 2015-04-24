@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNSChanger", "DNSChanger\DN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AeroToggle", "AeroToggle\AeroToggle.csproj", "{74130DD8-2C3E-4420-93FF-BEF5F7B8F2F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingStatus", "PingStatus\PingStatus.csproj", "{9FC899E3-C33C-4BBD-98E9-0D626F5F5975}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{74130DD8-2C3E-4420-93FF-BEF5F7B8F2F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74130DD8-2C3E-4420-93FF-BEF5F7B8F2F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74130DD8-2C3E-4420-93FF-BEF5F7B8F2F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FC899E3-C33C-4BBD-98E9-0D626F5F5975}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FC899E3-C33C-4BBD-98E9-0D626F5F5975}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FC899E3-C33C-4BBD-98E9-0D626F5F5975}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FC899E3-C33C-4BBD-98E9-0D626F5F5975}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
