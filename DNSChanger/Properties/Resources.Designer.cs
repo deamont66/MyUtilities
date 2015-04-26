@@ -61,44 +61,7 @@ namespace DNSChanger.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @echo off
-        ///netsh interface ip set dns name=&quot;Bezdr tov‚ pýipojenˇ k sˇti&quot; source=dhcp
-        ///netsh interface ip set dns name=&quot;Pýipojenˇ k mˇstnˇ sˇti&quot; source=dhcp.
-        /// </summary>
-        internal static string dnsDhcp {
-            get {
-                return ResourceManager.GetString("dnsDhcp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to @echo off
-        ///netsh interface ip add dns name=&quot;Bezdr tov‚ pýipojenˇ k sˇti&quot; addr=8.8.8.8 index=1
-        ///netsh interface ip add dns name=&quot;Bezdr tov‚ pýipojenˇ k sˇti&quot; addr=8.8.4.4 index=2
-        ///netsh interface ip add dns name=&quot;Pýipojenˇ k mˇstnˇ sˇti&quot; addr=8.8.8.8 index=1
-        ///netsh interface ip add dns name=&quot;Pýipojenˇ k mˇstnˇ sˇti&quot; addr=8.8.4.4 index=2.
-        /// </summary>
-        internal static string dnsGoogle {
-            get {
-                return ResourceManager.GetString("dnsGoogle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to @echo off
-        ///netsh interface ip add dns name=&quot;Bezdr tov‚ pýipojenˇ k sˇti&quot; addr=217.31.204.130 index=1
-        ///netsh interface ip add dns name=&quot;Bezdr tov‚ pýipojenˇ k sˇti&quot; addr=193.29.206.206 index=2
-        ///netsh interface ip add dns name=&quot;Pýipojenˇ k mˇstnˇ sˇti&quot; addr=217.31.204.130 index=1
-        ///netsh interface ip add dns name=&quot;Pýipojenˇ k mˇstnˇ sˇti&quot; addr=193.29.206.206 index=2.
-        /// </summary>
-        internal static string dnsNIC {
-            get {
-                return ResourceManager.GetString("dnsNIC", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to @ECHO ON
+        ///   Looks up a localized string similar to @ECHO OFF
         ///ipconfig /flushdns
         ///ipconfig /release 
         ///ipconfig /renew.

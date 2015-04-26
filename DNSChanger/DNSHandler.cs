@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Management;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -15,78 +16,78 @@ namespace DNSChanger
             DHCP = 0, GOOGLE = 1, CZNIC = 2
         }
 
-        static string googleIP = "8.8.8.8";
-        static string cznicIP = "217.31.204.130";
+        static string[] googleIP = new string[] { "8.8.8.8", "8.8.4.4" };
+        static string[] cznicIP = new string[] { "217.31.204.130", "193.29.206.206" };
 
         static Servers? currentServer = null;
 
-        public static Servers getCurrentServer() {
-            if (currentServer != null) 
-            {
-                return (Servers) currentServer;
-            }
 
-            Process p = new Process();
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.CreateNoWindow = false;
-            p.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            p.StartInfo.FileName = "cmd.exe";
-            p.StartInfo.Arguments = "/C echo | nslookup | findstr \"Address\"";
-            p.Start();
+        public static Servers getCurrentDNSServer()
+        {
+            ManagementClass objMC = new ManagementClass("Win32_NetworkAdapterConfiguration");
+            ManagementObjectCollection objMOC = objMC.GetInstances();
 
-            string output = p.StandardOutput.ReadToEnd();
-            p.WaitForExit();
-
-            if (output.Contains(googleIP)) {
-                currentServer = Servers.GOOGLE;
-            }
-            else if (output.Contains(cznicIP))
+            foreach (ManagementObject objMO in objMOC)
             {
-                currentServer = Servers.CZNIC;
+                if ((bool)objMO["IPEnabled"])
+                {
+                    string addres = ((string[]) objMO["DNSServerSearchOrder"])[0];
+                    if (addres.Contains(googleIP[0]) || addres.Contains(googleIP[1])) 
+                    {
+                        return Servers.GOOGLE;
+                    }
+                    else if (addres.Contains(cznicIP[0]) || addres.Contains(cznicIP[1]))
+                    {
+                        return Servers.CZNIC;
+                    }
+                }
             }
-            else 
-            {
-                currentServer = Servers.DHCP;
-            }
-            return (Servers) currentServer;
+            return Servers.DHCP;
         }
 
-        public static void changeDNSServerTo(Servers server)
+        public static void changeDNSServer(Servers server, string filter = null)
         {
-            if (currentServer.Equals(server))
+            bool filtered = !(filter == null);
+            ManagementClass objMC = new ManagementClass("Win32_NetworkAdapterConfiguration");
+            ManagementObjectCollection objMOC = objMC.GetInstances();
+
+            foreach (ManagementObject objMO in objMOC)
             {
-                return;
+                if ((bool)objMO["IPEnabled"])
+                {
+                    if (filtered && !objMO["Index"].ToString().Contains(filter))
+                    {
+                        continue;
+                    }
+
+                    try
+                    {
+                        if (server == Servers.DHCP)
+                        {
+                            objMO.InvokeMethod("SetDNSServerSearchOrder", objMO.GetMethodParameters("SetDNSServerSearchOrder"), null);
+                        }
+                        else
+                        {
+                            ManagementBaseObject newDNS =
+                                   objMO.GetMethodParameters("SetDNSServerSearchOrder");
+                            if(server == Servers.CZNIC) 
+                            {
+                                newDNS["DNSServerSearchOrder"] = cznicIP;
+                            }
+                            else if (server == Servers.GOOGLE)
+                            {
+                                newDNS["DNSServerSearchOrder"] = googleIP;
+                            }
+                            ManagementBaseObject setDNS =
+                                objMO.InvokeMethod("SetDNSServerSearchOrder", newDNS, null);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }
             }
-
-            string serverName;
-            switch (server)
-            {
-                case Servers.GOOGLE: serverName = "Google"; break;
-                case Servers.CZNIC: serverName = "NIC"; break;
-                default: serverName = "Dhcp"; break;
-            }
-
-            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), String.Format("dns{0}.bat", serverName));
-
-            using (Stream input = Assembly.GetEntryAssembly().GetManifestResourceStream(String.Format("DNSChanger.Resources.dns{0}.bat", serverName)))
-            using (Stream output = File.Create(path))
-            {
-                CopyStream(input, output);
-            }
-
-            Process myProg = new System.Diagnostics.Process();
-            myProg.StartInfo.FileName = path;
-            myProg.StartInfo.UseShellExecute = false;
-            myProg.StartInfo.Arguments = "";
-            myProg.StartInfo.RedirectStandardOutput = true;
-            myProg.StartInfo.CreateNoWindow = true;
-            myProg.Start();
-            myProg.StandardOutput.Dispose();
-            myProg.WaitForExit();
-
-            File.Delete(path);
-
             currentServer = server;
         }
 

@@ -20,12 +20,14 @@ namespace DNSChanger
             metroComboBox1.Items.Add(new ComboItem(DNSHandler.Servers.GOOGLE, "Google DNS"));
             metroComboBox1.Items.Add(new ComboItem(DNSHandler.Servers.CZNIC, "CZ.NIC DNS"));
 
-            metroComboBox1.SelectedIndex = (int) DNSHandler.getCurrentServer();
+            metroComboBox1.SelectedIndex = (int) DNSHandler.getCurrentDNSServer();
+
         }
 
         private void metroButton1_Click(object sender, EventArgs e)
         {
-            DNSHandler.changeDNSServerTo((DNSHandler.Servers)metroComboBox1.SelectedIndex);
+            DNSHandler.changeDNSServer((DNSHandler.Servers)metroComboBox1.SelectedIndex);
+            //DNSHandler.changeDNSServerTo((DNSHandler.Servers)metroComboBox1.SelectedIndex);
         }
 
         private void metroButton2_Click(object sender, EventArgs e)

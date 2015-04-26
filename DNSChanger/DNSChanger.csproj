@@ -64,6 +64,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -107,9 +108,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Resources\dnsDhcp.bat" />
-    <EmbeddedResource Include="Resources\dnsGoogle.bat" />
-    <EmbeddedResource Include="Resources\dnsNIC.bat" />
     <EmbeddedResource Include="Resources\internet.bat" />
   </ItemGroup>
   <ItemGroup>
